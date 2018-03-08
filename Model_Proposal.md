@@ -21,8 +21,10 @@ _The process of tumor-triggered angiogenesis is a complex system involving diffe
 ****
 
 _The key process I am interested in exploring is how the inhibitors interact with either the proteins released by the tumor cells or the endothelial cells to prevent the blood vessels from reaching the tumor cells, and therefore preventing tumor growth. I will test 2 types of inhibitors and compare their effects._
-* inhibitor that binds to VEGF, the most important factor released by tumor cells. This type of inhibitors acts as antibody which binds to VEGF and triggers immune response to remove VEGF. Angiogenesis will not be initiated without VEGF.
-* inhibitor that directly interacts with endothelial cells and prevents their migration. 
+
+* _Type1: inhibitor that binds to VEGF, the most important factor released by tumor cells. This type of inhibitors acts as antibody which binds to VEGF and triggers immune response to remove VEGF. Angiogenesis will not be initiated without VEGF.
+
+* _Type2: inhibitor that directly interacts with endothelial cells and prevents their migration. 
 
 &nbsp; 
 
@@ -32,13 +34,15 @@ _The key process I am interested in exploring is how the inhibitors interact wit
 &nbsp; 
 ### 1) Environment
 _Description of the environment in your model. Things to specify *if they apply*:_
-_The environment will be an area near a blood vessel within a human body and it will consist of tumor cells and the main blood vessel at fixed locations:_
+_The environment will be an area near a blood vessel within a human body. It will consist of an existing blood vessel at a fixed location and the growing branches triggered by tumors:_
 * _Boundary condition: infinite_
 * _Dimensionality: 2D_
 * _environment-owned variables:_
-
-   main blood vessel location
+  
+   location of the existing blood vessel, growth rate of new blood vessel branch, direction of growth
 * _environment-owned methods/procedures (e.g. resource production, state change, etc.)_
+
+   growth of new blood vessels from the existing ones
   
    
    
@@ -59,19 +63,19 @@ _The environment will be an area near a blood vessel within a human body and it 
  
 * _Agent-owned variables:_
 
-   **_Tumor**: tumor locations, tumor sizes, VEGF release rate
+   _**Tumor**: tumor locations, tumor sizes, VEGF release rate_
    
-   **_VEGF**: VEGF migration speed, VEGF binding coefficient
+   _**VEGF**: VEGF migration speed, VEGF binding coefficient_
    
-   **_Inhibitor**: inhibitor migration speed, inhibitor binding coefficient 
+   _**Inhibitor**: inhibitor migration speed, inhibitor binding coefficient_ 
 
 * _Agent-owned methods/procedures:_
 
-   **_Tumor**: tumor growth, release VEGF
+   _**Tumor**: tumor growth, release VEGF_
    
-   **_VEGF**: move, bind to blood vessel, die
+   _**VEGF**: move, bind to blood vessel, die_
    
-   **_Inhibitor**: 
+   _**Inhibitor**:_ 
    
    * _Type 1: move, bind to VEGF, die
    * _Type 2: move, bind to blood vessel, die

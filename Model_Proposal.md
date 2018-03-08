@@ -45,7 +45,6 @@ _The environment will be an area near a blood vessel within a human body and it 
 
 
 ```python
-# Include first pass of the code you are thinking of using to construct your environment
 # Construct the tumor cells:
 Class Tumor(object):
   def __init__(self, x, y, radius, r_constant):
@@ -54,13 +53,18 @@ Class Tumor(object):
     self.radius=radius
     self.release_rate=r_constant*(radius**2)
      
-  #tumor growth rate
+  # tumor growth rate
   def tumor_growth_rate(self, grow=False, distance, g_constant)
     if grow==Ture:
       #growth rate of a tumor cell is inversely proportional to its distance to the main blood vessel 
       g_rate=gc/distance
+      return g_rate
   
-  
+  # tumor growing
+  def grow(self, tumor_growth_rate, grow=False):
+    if grow==True:
+      self.radius=tumor_growth_rate*self.radius
+      
 Tumor_num=3
 for i in range(Tumor_num):
   x=

@@ -57,7 +57,7 @@ Class Tumor(object):
   def tumor_growth_rate(self, grow=False, distance, g_constant)
     if grow==Ture:
       #growth rate of a tumor cell is inversely proportional to its distance to the main blood vessel 
-      g_rate=gc/distance
+      g_rate=g_constant/distance
       return g_rate
   
   # tumor growing

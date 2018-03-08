@@ -34,7 +34,7 @@ _The key process I am interested in exploring is how the inhibitors interact wit
 &nbsp; 
 ### 1) Environment
 _Description of the environment in your model. Things to specify *if they apply*:_
-_The environment will be an area near a blood vessel within a human body. It will consist of an existing blood vessel at a fixed location and the growing branches triggered by tumors:_
+_The environment will be an area near a blood vessel within a human body. Initially, it will consist of an existing blood vessel at a fixed location. And as the simulation continues, the growth of new branches will be triggered by tumors:_
 * _Boundary condition: infinite_
 * _Dimensionality: 2D_
 * _Environment-owned variables:_
@@ -49,10 +49,96 @@ _The environment will be an area near a blood vessel within a human body. It wil
 
 
 ```python
+import math
+import numpy
+import random
 
-  
-# This may be a set of "patches-own" variables and a command in the "setup" procedure, a list, an array, or Class constructor
-# Feel free to include any patch methods/procedures you have. Filling in with pseudocode is ok! 
+# Construct the blood vessel
+Class BV(object):
+  def __init__(self, x, y, g_rate):
+    self.x=x
+    self.y=y
+    self.growth_rate=g_rate
+    self.bound=False
+    
+  def branch_grow(self, VEGF_list, Inhibitor_list, bc_V, inhibitor_type, bc_I): 
+    # bc_V & bc_I: binding coefficient of VEGF & inhibitor respectively
+    growing=False
+    near_VEGF_list=[]
+    near_inhibitor_list=[]
+    total_near_VEGF_distance=0
+    total_near_inhibitor_distance=0
+    
+    # append all the VEGF that are close to the blood vessel cell into the list "near_VEGF_list"
+    for VEGF in VEGF_list:
+      #calculate the distance between a VEGF and the blood vessel cell
+      distance=math.sqrt((VEGF.x-self.x)**2+(VEGF.y-self.y)**2)
+      if distance<2: 
+        total_near_VEGF_distance+=distance
+        near_VEGF_list.append(VEGF)
+        
+    # for type 2 inhibitor, append all the inhibitors that are close to the blood vessel cell into the list "near_inhibitor_list"
+    if inhibitor_type==2:
+      for inhibitor in Inhibitor_list:
+        #calculate the distance between an inhibitor and the blood vessel cell
+        distance=math.sqrt((inhibitor.x-self.x)**2+(inhibitor.y-self.y)**2)
+        if distance<2:
+          total_near_inhibitor_distance+=distance
+          near_inhibitor_list.append(inhibitor)
+    
+    # if the inhibitor is type 1, it does not interact with blood vessel cells. The blood vessel growth depends only on VEGF binding.
+    if inhibitor_type==1 and bound==False:
+      for VEGF in near_VEGF_list:
+        if random.random()<bc_V:
+          growing=True
+          bound==True
+          break
+          
+      if growing==Ture:
+        # the function "find_center_point" finds the geometric center of the group near the blood vessel and returns its location
+        center_VEGF=find_center_point(near_VEGF_list)
+        # grow the blood vessel
+        BV_grow(center_VEGF)
+     
+    # if the inhibitor is type 2, it competes with VEGF in binding with blood vessel cells. If the average distance between the group of inhibitors is smaller than that of VEGF, the blood vessel will not grow. Otherwise, the blood vessel will grow 
+    if inhibitor_type==2 and bound==False:
+      if total_near_VEGF_distance/len(near_VEGF_list) < total_near_inhibitor_distance/len(near_inhibitor_list):
+        growing=False
+      else:
+        growing=True
+        bound=True
+        
+      if growing==True:
+        center_VEGF=find_center_point(near_VEGF_list)
+        BV_grow()
+    
+  def BV_grow(self, center):
+    #calculate the unit moving vectors
+    BV_location=point(self.x, self.y)  #location of the BV cell
+    move_vector=unit_vector_from_2points(BV_location, center) # calculate the unit vector from the BV cell to the target center 
+      
+    # generating new blood vessel cells. The number of new BV cells depends on the growth rate
+    for i in range(growth_rate):
+      new_BV_x=int(self.x+i*move_vector[0])
+      new_BV_y=int(self.x+i*move_vector[1])
+      new_BV=BV(new_BV_x, new_BV_y, g_rate)
+        
+      # BV_list is the list that contains all the current blood vessel cells
+      BV_list.append(new_BV)
+    
+        
+# Create space and initial blood vessel at fixed location
+space=numpy.zeros((grid_size, grid_size),dtype=numpy.int8)
+for row in range(grid_size):
+  for col in range(grid_size):
+     # Determine if this cell will be a blood vessel cell
+     if row==int(grid_size*0.8)
+       cell_type = 1
+     else:
+       cell_type = 2
+       
+     # Set the space
+     space[row, col] = cell_type
 ```
 
 &nbsp; 

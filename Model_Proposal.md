@@ -22,9 +22,9 @@ _The process of tumor-triggered angiogenesis is a complex system involving diffe
 
 _The key process I am interested in exploring is how the inhibitors interact with either the proteins released by the tumor cells or the endothelial cells to prevent the blood vessels from reaching the tumor cells, and therefore preventing tumor growth. I will test 2 types of inhibitors and compare their effects._
 
-* _Type1: inhibitor that binds to VEGF, the most important factor released by tumor cells. This type of inhibitors acts as antibody which binds to VEGF and triggers immune response to remove VEGF. Angiogenesis will not be initiated without VEGF.
+ _* Type1: inhibitor that binds to VEGF, the most important factor released by tumor cells. This type of inhibitors acts as antibody which binds to VEGF and triggers immune response to remove VEGF. Angiogenesis will not be initiated without VEGF._
 
-* _Type2: inhibitor that directly interacts with endothelial cells and prevents their migration. 
+ _* Type2: inhibitor that directly interacts with endothelial cells and prevents their migration._ 
 
 &nbsp; 
 
@@ -39,10 +39,10 @@ _The environment will be an area near a blood vessel within a human body. It wil
 * _Dimensionality: 2D_
 * _environment-owned variables:_
   
-   location of the existing blood vessel, growth rate of new blood vessel branch, direction of growth
+   _location of the existing blood vessel, growth rate of new blood vessel branch, direction of growth_
 * _environment-owned methods/procedures (e.g. resource production, state change, etc.)_
 
-   growth of new blood vessels from the existing ones
+   _growth of new blood vessels from the existing ones_
   
    
    
@@ -77,8 +77,8 @@ _The environment will be an area near a blood vessel within a human body. It wil
    
    _**Inhibitor**:_ 
    
-   * _Type 1: move, bind to VEGF, die
-   * _Type 2: move, bind to blood vessel, die
+   * _Type 1: move, bind to VEGF, die_
+   * _Type 2: move, bind to blood vessel, die_
 
 
 ```python

@@ -101,10 +101,11 @@ _Provide a high level, step-by-step description of your schedule during each "ti
 
 ### 5) Assessment and Outcome Measures
 
-* _change in tumor cell size (Tumor_S(final)-Tumor_S(initial))_
+* _change in tumor cell size (Change_TuSize = Tumor_Size(final)-Tumor_Size(initial))_
 * _time (t)_
 * _inhibitor concentration (inh_c)_
-_The effectiveness of the inhibitors will be measured using the formula ((Tumor_S(final)-Tumor_S(initial))/t)/inh_c, indicating the growth rate of the tumor cell given inh_c mol/L inhibitor. The smaller the result, the more effective the inhibitor is.
+
+_The effectiveness of the inhibitors will be measured using the formula Change_TuSize/t)/inh_c, indicating the growth rate of the tumor cell given inh_c mol/L inhibitor. The smaller the result, the more effective the inhibitor is.
 
 &nbsp; 
 

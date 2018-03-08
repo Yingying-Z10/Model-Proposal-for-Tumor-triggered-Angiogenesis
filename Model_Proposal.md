@@ -78,7 +78,6 @@ _Type 2 inhibitor:_
  
 **_Action Sequence_**
 
-_What does an agent, cell, etc. do on a given turn? Provide a step-by-step description of what happens on a given turn for each part of your model_
 _Type 1 inhibitor:_
 1. Tumor cells release VEGF.
 2. VEGF dissipates in the environment. The movement of VEGF will be against its gradient, meaning that the less amount of VEGF the region has, the more likely a particle of VEGF will move there. 

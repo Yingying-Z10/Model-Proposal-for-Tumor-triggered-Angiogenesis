@@ -37,10 +37,10 @@ _The environment will be an area near a blood vessel within a human body and it 
 * _Dimensionality: 2D_
 * _environment-owned variables:_
 
-   tumor locations, tumor sizes, VEGF release rate, main blood vessel location
+   main blood vessel location
 * _environment-owned methods/procedures (e.g. resource production, state change, etc.)_
   
-   tumor growth, change in VEGF release rate as a result of tumor growth
+   
    
 
 
@@ -77,10 +77,26 @@ for i in range(Tumor_num):
 
 ### 2) Agents
  
- _Description of the "agents" in the system. Things to specify *if they apply*:_
+ _The agents in this model include 3 types of agents: tumor cells, VEGF released by tumor cells and inhibitors:_
  
-* _List of agent-owned variables (e.g. age, heading, ID, etc.)_
-* _List of agent-owned methods/procedures (e.g. move, consume, reproduce, die, etc.)_
+* _agent-owned variables:_
+
+   Tumor: tumor locations, tumor sizes, VEGF release rate
+   
+   VEGF: VEGF migrating speed, VEGF binding coefficient
+   
+   Inhibitor: inhibitor migrating speed, inhibitor binding coefficient 
+
+* _agent-owned methods/procedures (e.g. move, consume, reproduce, die, etc.)_
+
+   Tumor: tumor growth (increase in size and increase in VEGF release rate as a result of growth)
+   
+   VEGF: binding to blood vessel
+   
+   Inhibitor: 
+   
+   * Type 1: binding to VEGF
+   * Type 2: binding to blood vessel
 
 
 ```python

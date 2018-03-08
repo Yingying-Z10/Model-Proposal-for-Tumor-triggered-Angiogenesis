@@ -84,9 +84,9 @@ _Type 1 inhibitor:_
 3. VEGF triggers endothelial cell migration when it moves to a location that is within a pre-defined radius of an endothelial cell.
 4. Inhibitors enter the system. The model for type 1 inhibitor and that for type 2 inhibitor will be different:
 
-Type 1 inhibitor: Inhibitors interact with VEGF. When the distance between an inhibitor and a VEGF is within a pre-defined threshold, the VEGF will be removed after a pre-defined amount of time.
+···Type 1 inhibitor: Inhibitors interact with VEGF. When the distance between an inhibitor and a VEGF is within a pre-defined threshold, the VEGF will be removed after a pre-defined amount of time.
 
-Type 2 inhibitor: Inhibitors interact with endothelial cells through spatial proximity and compete with VEGF. Within a pre-defined radius, if the ratio of the inhibitor concentration over the VEGF concentration is above the pre-defined threshold, the endothelial cell will stop migrating.
+···Type 2 inhibitor: Inhibitors interact with endothelial cells through spatial proximity and compete with VEGF. Within a pre-defined radius, if the ratio of the inhibitor concentration over the VEGF concentration is above the pre-defined threshold, the endothelial cell will stop migrating.
 
 &nbsp; 
 ### 4) Model Parameters and Initialization

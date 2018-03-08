@@ -106,7 +106,7 @@ _Provide a high level, step-by-step description of your schedule during each "ti
 * _time (t)_
 * _inhibitor concentration (inh_c)_
 
-_The effectiveness of the inhibitors will be measured using the formula Change_TuSize/t)/inh_c, indicating the growth rate of the tumor cell given inh_c mol/L inhibitor. The smaller the result, the more effective the inhibitor is.
+_The effectiveness of the inhibitors will be measured using the formula **(Change_TuSize/t)/inh_c**, indicating the growth rate of the tumor cell given inh_c mol/L inhibitor. The smaller the result, the more effective the inhibitor is.
 
 &nbsp; 
 

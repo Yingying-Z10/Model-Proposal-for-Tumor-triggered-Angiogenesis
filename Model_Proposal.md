@@ -72,6 +72,7 @@ _Description of the environment in your model. Things to specify *if they apply*
 _Type 1 inhibitor:_
 * VEGF interacts with inhibitors through spatial proximity
 * endothelial cells interact with VEGF through spatial proximity 
+
 _Type 2 inhibitor:_
 * inhibitors interacts with endothelial cells through spatial proximity
 * VEGF interacts with endothelial cells through spatial proximity

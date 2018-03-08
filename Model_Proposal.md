@@ -45,6 +45,40 @@ _The environment will be an area near a blood vessel within a human body and it 
 
 
 ```python
+
+  
+# This may be a set of "patches-own" variables and a command in the "setup" procedure, a list, an array, or Class constructor
+# Feel free to include any patch methods/procedures you have. Filling in with pseudocode is ok! 
+```
+
+&nbsp; 
+
+### 2) Agents
+ 
+ _The agents in this model include 3 types of agents: tumor cells, VEGF released by tumor cells and inhibitors:_
+ 
+* _Agent-owned variables:_
+
+   **_Tumor_**: _tumor locations, tumor sizes, VEGF release rate
+   
+   **_VEGF_**:_VEGF migrating speed, VEGF binding coefficient
+   
+   **_Inhibitor_**: inhibitor migrating speed, inhibitor binding coefficient 
+
+* _Agent-owned methods/procedures (e.g. move, consume, reproduce, die, etc.)_
+
+   **_Tumor_**: _tumor growth, release VEGF
+   
+   **_VEGF_**: _move, bind to blood vessel, die
+   
+   **_Inhibitor_**: 
+   
+   * _Type 1: move, bind to VEGF, die
+   * _Type 2: move, bind to blood vessel, die
+
+
+```python
+# Include first pass of the code you are thinking of using to construct your agents
 # Construct the tumor cells:
 Class Tumor(object):
   def __init__(self, x, y, radius, r_constant):
@@ -68,39 +102,8 @@ Class Tumor(object):
 Tumor_num=3
 for i in range(Tumor_num):
   x=
-  
-# This may be a set of "patches-own" variables and a command in the "setup" procedure, a list, an array, or Class constructor
-# Feel free to include any patch methods/procedures you have. Filling in with pseudocode is ok! 
-```
-
-&nbsp; 
-
-### 2) Agents
- 
- _The agents in this model include 3 types of agents: tumor cells, VEGF released by tumor cells and inhibitors:_
- 
-* _agent-owned variables:_
-
-   Tumor: tumor locations, tumor sizes, VEGF release rate
-   
-   VEGF: VEGF migrating speed, VEGF binding coefficient
-   
-   Inhibitor: inhibitor migrating speed, inhibitor binding coefficient 
-
-* _agent-owned methods/procedures (e.g. move, consume, reproduce, die, etc.)_
-
-   Tumor: tumor growth (increase in size and increase in VEGF release rate as a result of growth)
-   
-   VEGF: binding to blood vessel
-   
-   Inhibitor: 
-   
-   * Type 1: binding to VEGF
-   * Type 2: binding to blood vessel
 
 
-```python
-# Include first pass of the code you are thinking of using to construct your agents
 # This may be a set of "turtle-own" variables and a command in the "setup" procedure, a list, an array, or Class constructor
 # Feel free to include any agent methods/procedures you have so far. Filling in with pseudocode is ok! 
 # NOTE: If using Netlogo, remove "python" from the markdown at the top of this section to get a generic code block
@@ -122,7 +125,6 @@ _Type 2 inhibitor:_
  
 **_Action Sequence_**
 
-_Type 1 inhibitor:_
 1. Tumor cells release VEGF.
 2. VEGF dissipates in the environment. The movement of VEGF will be against its gradient, meaning that the less amount of VEGF the region has, the more likely a particle of VEGF will move there. 
 3. VEGF triggers endothelial cell migration when it moves to a location that is within a pre-defined radius of an endothelial cell.

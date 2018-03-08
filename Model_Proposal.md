@@ -39,7 +39,7 @@ _The environment will be an area near a blood vessel within a human body. Initia
 * _Dimensionality: 2D_
 * _Environment-owned variables:_
   
-   _location of the existing blood vessel, growth rate of new blood vessel branch, direction of growth_
+   _location of the existing blood vessel, growth rate of new blood vessel branch_
 * _Environment-owned methods/procedures:_
 
    _growth of new blood vessels from the existing ones_
@@ -52,6 +52,8 @@ _The environment will be an area near a blood vessel within a human body. Initia
 import math
 import numpy
 import random
+
+g_rate=5 # growth rate of blood vessel
 
 # Construct the blood vessel
 Class BV(object):
@@ -86,10 +88,11 @@ Class BV(object):
           total_near_inhibitor_distance+=distance
           near_inhibitor_list.append(inhibitor)
     
-    # if the inhibitor is type 1, it does not interact with blood vessel cells. The blood vessel growth depends only on VEGF binding.
+    # if the inhibitor is type 1, it does not interact with blood vessel cells. The blood vessel growth depends only on VEGF binding. If a VEGF is bound by an inhibitor, it will not be able to bind to the blood vessel cell
     if inhibitor_type==1 and bound==False:
       for VEGF in near_VEGF_list:
-        if random.random()<bc_V:
+        if random.random()<bc_V and VEGF.attached=False:
+          VEGF.attached=True
           growing=True
           bound==True
           break
@@ -113,7 +116,7 @@ Class BV(object):
         BV_grow()
     
   def BV_grow(self, center):
-    #calculate the unit moving vectors
+    #calculate moving direction
     BV_location=point(self.x, self.y)  #location of the BV cell
     move_vector=unit_vector_from_2points(BV_location, center) # calculate the unit vector from the BV cell to the target center 
       
@@ -168,7 +171,15 @@ for row in range(grid_size):
 
 
 ```python
-# Include first pass of the code you are thinking of using to construct your agents
+
+r_constant=30 # VEGF release rate of the tumor
+V_speed=1.5 # migration speed of VEGF
+I1_speed=1.8 # migration speed of type 1 inhibitor
+I2_speed=2.0 # migration speed of type 2 inhibitor
+V_dying_rate=0.5 # dying rate of VEGF
+I1_dying_rate=0.4 # dying rate of type 1 inhibitor
+I2_dying_rate=0.4 # dying rate of type 2 inhibitor
+
 # Construct the tumor cells:
 Class Tumor(object):
   def __init__(self, x, y, radius, r_constant):
@@ -188,15 +199,81 @@ Class Tumor(object):
   def grow(self, tumor_growth_rate, grow=False):
     if grow==True:
       self.radius=tumor_growth_rate*self.radius
-      
-Tumor_num=3
-for i in range(Tumor_num):
-  x=
+
+Class VEGF(object):
+  def __init__(self, x, y, speed):
+    self.x=x
+    self.y=y
+    self.speed=speed
+    self.bound=false
+    self.inactive=false
+  
+  # VEGF migration
+  def moving(self):
+    dx=self.speed*random.uniform(-1,1)
+    dy=self.speed*random.uniform(-1,1)
+    self.x+=dx
+    self.y+=dy
+  
+  # VEGF dying: a while after it is bound to either type 1 inhibitor or the blood vessel, it will be removed from the system
+  def dying(self):
+    if self.bound==True:
+      value=V_dying_rate*(t-Tbound) # t is the current time and Tbound is the time when VEGF is attached
+      if value<=0 or moved-out-of-boundary:
+        self.inactive=true
+        
+Class Type1_inhibitor(object):
+  def __init__(self, x, y, speed):
+    self.x=x
+    self.y=y
+    self.speed=speed
+    self.bound=false
+    self.inactive=false
+    
+  # type1 inhibitor migration
+  def moving(self):
+    dx=self.speed*random.uniform(-1,1)
+    dy=self.speed*random.uniform(-1,1)
+    self.x+=dx
+    self.y+=dy 
+  
+  # type1 inhibitor binding to VEGF
+  def binding(self):
+    for VEGF in VEGF_list:
+      distance=math.sqrt((self.x-VEGF.x)**2+(self.y-VEGF.y)**2)
+      if distance<2:
+        self.bound=True
+        VEGF.bound=True
+  
+  # type1 inhibitor dying: a while after it is bound to VEGF, it will be removed from the system
+  def dying(self):
+    if self.bound==True:
+      value=I1_dying_rate*(t-Tbound) # t is the current time and Tbound is the time when inhibitor is attached
+      if value<=0 or moved-out-of-boundary:
+        self.inactive=true
+        
+Class Type2_inhibitor(object):
+  def __init__(self, x, y, speed):
+    self.x=x
+    self.y=y
+    self.speed=speed
+    self.inactive=false
+    
+  # type2 inhibitor migration
+  def moving(self):
+    dx=self.speed*random.uniform(-1,1)
+    dy=self.speed*random.uniform(-1,1)
+    self.x+=dx
+    self.y+=dy 
+  
+  # type2 inhibitor dying: a while after it enters the system, it will be removed from the system
+  def dying(self):
+    if moved-out-of-boundary:
+      self.inactive=true
 
 
 # This may be a set of "turtle-own" variables and a command in the "setup" procedure, a list, an array, or Class constructor
 # Feel free to include any agent methods/procedures you have so far. Filling in with pseudocode is ok! 
-# NOTE: If using Netlogo, remove "python" from the markdown at the top of this section to get a generic code block
 ```
 
 &nbsp; 

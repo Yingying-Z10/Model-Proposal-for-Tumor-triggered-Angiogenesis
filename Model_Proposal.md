@@ -14,7 +14,7 @@ _The goal of my model is to simulate the angiogenesis process triggered by tumor
 &nbsp;  
 ### Justification
 ****
-_The process of tumor-triggered angiogenesis is a complex system involving different agents such as tumor cells and endothelial cells. The growth of blood vessels is a result from interactions between the proteins released by the tumor cells and the receptors on the endothelial cells. Using ABM, I can predict the formation of new blood vessels; and by adding inhibitors to the systems, I can test whether certain inhibitor can prevent the tumor cells from growing and compare the efficiencies of different inhibitors._
+_The process of tumor-triggered angiogenesis is a complex system involving different agents such as proteins released by tumor cells and endothelial cells. The growth of blood vessels is a result from interactions between the proteins released by the tumor cells and the receptors on the endothelial cells. Using ABM, I can predict the formation of new blood vessels; and by adding inhibitors to the systems, I can test whether certain inhibitor can prevent the tumor cells from growing and compare the efficiencies of different inhibitors._
 
 &nbsp; 
 ### Main Micro-level Processes and Macro-level Dynamics of Interest
@@ -33,8 +33,8 @@ _The key process I am interested in exploring is how the inhibitors interact wit
 ### 1) Environment
 _Description of the environment in your model. Things to specify *if they apply*:_
 
-* _Boundary conditions (e.g. wrapping, infinite, etc.)_
-* _Dimensionality (e.g. 1D, 2D, etc.)_
+* _Boundary condition: infinite_
+* _Dimensionality: 2D_
 * _List of environment-owned variables (e.g. resources, states, roughness)_
 * _List of environment-owned methods/procedures (e.g. resource production, state change, etc.)_
 
@@ -69,15 +69,23 @@ _Description of the environment in your model. Things to specify *if they apply*
  
 **_Interaction Topology_**
 
-_Description of the topology of who interacts with whom in the system. Perfectly mixed? Spatial proximity? Along a network? CA neighborhood?_
+_Type 1 inhibitor:_
+* VEGF interacts with inhibitors through spatial proximity
+* endothelial cells interact with VEGF through spatial proximity 
+_Type 2 inhibitor:_
+* inhibitors interacts with endothelial cells through spatial proximity
+* VEGF interacts with endothelial cells through spatial proximity
  
 **_Action Sequence_**
 
 _What does an agent, cell, etc. do on a given turn? Provide a step-by-step description of what happens on a given turn for each part of your model_
-
-1. Step 1
-2. Step 2
-3. Etc...
+_Type 1 inhibitor:_
+1. Tumor cells release VEGF.
+2. VEGF dissipates in the environment. The movement of VEGF will be against its gradient, meaning that the less amount of VEGF the region has, the more likely a particle of VEGF will move there. 
+3. VEGF triggers endothelial cell migration when it moves to a location that is within a pre-defined radius of an endothelial cell.
+4. Inhibitors enter the system. The model for type 1 inhibitor and that for type 2 inhibitor will be different:
+* Type 1 inhibitor: Inhibitors interact with VEGF. When the distance between an inhibitor and a VEGF is within a pre-defined threshold, the VEGF will be removed after a pre-defined amount of time.
+* Type 2 inhibitor: Inhibitors interact with endothelial cells through spatial proximity and compete with VEGF. Within a pre-defined radius, if the ratio of the inhibitor concentration over the VEGF concentration is above the pre-defined threshold, the endothelial cell will stop migrating.
 
 &nbsp; 
 ### 4) Model Parameters and Initialization

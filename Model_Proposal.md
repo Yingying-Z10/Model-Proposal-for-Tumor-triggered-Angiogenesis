@@ -32,15 +32,27 @@ _The key process I am interested in exploring is how the inhibitors interact wit
 &nbsp; 
 ### 1) Environment
 _Description of the environment in your model. Things to specify *if they apply*:_
-
+_The environment will be an area near a blood vessel within a human body and it will consist of tumor cells at fixed locations:_
 * _Boundary condition: infinite_
 * _Dimensionality: 2D_
-* _List of environment-owned variables (e.g. resources, states, roughness)_
-* _List of environment-owned methods/procedures (e.g. resource production, state change, etc.)_
+* _environment-owned variables:_
+
+   tumor locations, tumor sizes, VEGF release rate
+* _environment-owned methods/procedures (e.g. resource production, state change, etc.)_
+  
+   tumor growth, change in VEGF release rate as a result of tumor growth
+   
 
 
 ```python
 # Include first pass of the code you are thinking of using to construct your environment
+# Construct the tumor cells:
+Class Tumor(object):
+  def __init__(self, x, y, radius):
+      
+Tumor_num=3
+for i in range(Tumor_num):
+  x=
 # This may be a set of "patches-own" variables and a command in the "setup" procedure, a list, an array, or Class constructor
 # Feel free to include any patch methods/procedures you have. Filling in with pseudocode is ok! 
 # NOTE: If using Netlogo, remove "python" from the markdown at the top of this section to get a generic code block

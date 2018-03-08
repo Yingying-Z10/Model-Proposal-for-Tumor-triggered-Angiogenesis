@@ -59,19 +59,19 @@ _The environment will be an area near a blood vessel within a human body and it 
  
 * _Agent-owned variables:_
 
-   **_Tumor_**: _tumor locations, tumor sizes, VEGF release rate
+   **_Tumor**: tumor locations, tumor sizes, VEGF release rate
    
-   **_VEGF_**:_VEGF migrating speed, VEGF binding coefficient
+   **_VEGF**: VEGF migration speed, VEGF binding coefficient
    
-   **_Inhibitor_**: inhibitor migrating speed, inhibitor binding coefficient 
+   **_Inhibitor**: inhibitor migration speed, inhibitor binding coefficient 
 
-* _Agent-owned methods/procedures (e.g. move, consume, reproduce, die, etc.)_
+* _Agent-owned methods/procedures:_
 
-   **_Tumor_**: _tumor growth, release VEGF
+   **_Tumor**: tumor growth, release VEGF
    
-   **_VEGF_**: _move, bind to blood vessel, die
+   **_VEGF**: move, bind to blood vessel, die
    
-   **_Inhibitor_**: 
+   **_Inhibitor**: 
    
    * _Type 1: move, bind to VEGF, die
    * _Type 2: move, bind to blood vessel, die

@@ -287,26 +287,36 @@ _Type 1 inhibitor:_
 * _blood vessels interact with VEGF through spatial proximity_ 
 
 _Type 2 inhibitor:_
-* _inhibitors interacts with blood vessels through spatial proximity_
+* _inhibitors interact with blood vessels through spatial proximity_
 * _VEGF interacts with blood vessels through spatial proximity_
  
 **_Action Sequence_**
 
-1. Tumor cells release VEGF.
-2. VEGF dissipates in the environment. The movement of VEGF will be against its gradient, meaning that the less amount of VEGF the region has, the more likely a particle of VEGF will move there. 
-3. VEGF triggers blood vessel growth when it moves to a location that is within a pre-defined radius of a blood vessel.
-4. Inhibitors enter the system. The model for type 1 inhibitor and that for type 2 inhibitor will be different:
+1. _Tumor cells release VEGF._
+2. _VEGF dissipates in the environment. The movement of VEGF will be against its gradient, meaning that the less amount of VEGF the region has, the more likely a particle of VEGF will move there._
+3. _VEGF triggers blood vessel growth when it moves to a location that is within a pre-defined radius of a blood vessel._
+4. _Inhibitors enter the system. The model for type 1 inhibitor and that for type 2 inhibitor will be different:_
 
-   Type 1 inhibitor: Inhibitors interact with VEGF. When the distance between an inhibitor and a VEGF is within a pre-defined threshold, the VEGF will be removed after a pre-defined amount of time.
+   _Type 1 inhibitor: Inhibitors interact with VEGF. When the distance between an inhibitor and a VEGF is within a pre-defined threshold, the VEGF will be removed from the system after a pre-defined amount of time._
 
-   Type 2 inhibitor: Inhibitors interact with blood vessels through spatial proximity and compete with VEGF. Within a pre-defined radius, if the ratio of the inhibitor concentration over the VEGF concentration is above the pre-defined threshold, the blood vessel will stop growing.
+   _Type 2 inhibitor: Inhibitors interact with blood vessels through spatial proximity and compete with VEGF. Within a pre-defined radius, if the averaged distance of the inhibitors near the blood vessel cell is smaller than that of the VEGFs near the same blood vessel cell, no new blood vessel cell will grow from it._
 
 &nbsp; 
 ### 4) Model Parameters and Initialization
 
-_Describe and list any global parameters you will be applying in your model._
+_global parameters:_
+
+* _grid size_
+* _time_
+* _blood_vessel_cell_list
+* _VEGF_list_
+* _tumor_cell_list_
+* _type1_inhibitor_list_
+* _type2_inhibitor_list_
+
 
 _Describe how your model will be initialized_
+_
 
 _Provide a high level, step-by-step description of your schedule during each "tick" of the model_
 
@@ -314,11 +324,13 @@ _Provide a high level, step-by-step description of your schedule during each "ti
 
 ### 5) Assessment and Outcome Measures
 
+_The results will be measured using the following parameters:
+
 * _change in tumor cell size (Change_TuSize = Tumor_Size(final)-Tumor_Size(initial))_
 * _time (t)_
-* _inhibitor concentration (inh_c)_
+* _inhibitor concentration (inh_c = number-of-inhibitors/simulation-area)_
 
-_The effectiveness of the inhibitors will be measured using the formula **(Change_TuSize/t)/inh_c**, indicating the growth rate of the tumor cell given inh_c mol/L inhibitor. The smaller the result, the more effective the inhibitor is.
+_The effectiveness of the inhibitors will be measured using the formula **(Change_TuSize/t)/inh_c**, indicating the growth rate of the tumor cell at the given amount of inhibitors. The smaller the result, the more effective the inhibitor is.
 
 &nbsp; 
 

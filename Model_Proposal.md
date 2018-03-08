@@ -22,9 +22,9 @@ _The process of tumor-triggered angiogenesis is a complex system involving diffe
 
 _The key process I am interested in exploring is how the inhibitors interact with either the proteins released by the tumor cells or the endothelial cells to prevent the blood vessels from reaching the tumor cells, and therefore preventing tumor growth. I will test 2 types of inhibitors and compare their effects._
 
- _* Type1: inhibitor that binds to VEGF, the most important factor released by tumor cells. This type of inhibitors acts as antibody which binds to VEGF and triggers immune response to remove VEGF. Angiogenesis will not be initiated without VEGF._
+ * _Type1: inhibitor that binds to VEGF, the most important factor released by tumor cells. This type of inhibitors acts as antibody which binds to VEGF and triggers immune response to remove VEGF. Angiogenesis will not be initiated without VEGF._
 
- _* Type2: inhibitor that directly interacts with endothelial cells and prevents their migration._ 
+ * _Type2: inhibitor that directly interacts with endothelial cells and prevents their migration._ 
 
 &nbsp; 
 
@@ -37,10 +37,10 @@ _Description of the environment in your model. Things to specify *if they apply*
 _The environment will be an area near a blood vessel within a human body. It will consist of an existing blood vessel at a fixed location and the growing branches triggered by tumors:_
 * _Boundary condition: infinite_
 * _Dimensionality: 2D_
-* _environment-owned variables:_
+* _Environment-owned variables:_
   
    _location of the existing blood vessel, growth rate of new blood vessel branch, direction of growth_
-* _environment-owned methods/procedures (e.g. resource production, state change, etc.)_
+* _Environment-owned methods/procedures:_
 
    _growth of new blood vessels from the existing ones_
   
@@ -120,23 +120,23 @@ for i in range(Tumor_num):
 **_Interaction Topology_**
 
 _Type 1 inhibitor:_
-* VEGF interacts with inhibitors through spatial proximity
-* endothelial cells interact with VEGF through spatial proximity 
+* _VEGF interacts with inhibitors through spatial proximity_
+* _blood vessels interact with VEGF through spatial proximity_ 
 
 _Type 2 inhibitor:_
-* inhibitors interacts with endothelial cells through spatial proximity
-* VEGF interacts with endothelial cells through spatial proximity
+* _inhibitors interacts with blood vessels through spatial proximity_
+* _VEGF interacts with blood vessels through spatial proximity_
  
 **_Action Sequence_**
 
 1. Tumor cells release VEGF.
 2. VEGF dissipates in the environment. The movement of VEGF will be against its gradient, meaning that the less amount of VEGF the region has, the more likely a particle of VEGF will move there. 
-3. VEGF triggers endothelial cell migration when it moves to a location that is within a pre-defined radius of an endothelial cell.
+3. VEGF triggers blood vessel growth when it moves to a location that is within a pre-defined radius of a blood vessel.
 4. Inhibitors enter the system. The model for type 1 inhibitor and that for type 2 inhibitor will be different:
 
    Type 1 inhibitor: Inhibitors interact with VEGF. When the distance between an inhibitor and a VEGF is within a pre-defined threshold, the VEGF will be removed after a pre-defined amount of time.
 
-   Type 2 inhibitor: Inhibitors interact with endothelial cells through spatial proximity and compete with VEGF. Within a pre-defined radius, if the ratio of the inhibitor concentration over the VEGF concentration is above the pre-defined threshold, the endothelial cell will stop migrating.
+   Type 2 inhibitor: Inhibitors interact with blood vessels through spatial proximity and compete with VEGF. Within a pre-defined radius, if the ratio of the inhibitor concentration over the VEGF concentration is above the pre-defined threshold, the blood vessel will stop growing.
 
 &nbsp; 
 ### 4) Model Parameters and Initialization

@@ -335,7 +335,7 @@ _Type 2 inhibitor:_
 
    _Type 1 inhibitor: Inhibitors interact with VEGF. When the distance between an inhibitor and a VEGF is within a pre-defined threshold, the VEGF will be removed from the system after a pre-defined amount of time._
 
-   _Type 2 inhibitor: Inhibitors interact with blood vessels through spatial proximity and compete with VEGF. Within a pre-defined radius, if the averaged distance of the inhibitors near the blood vessel cell is smaller than that of the VEGFs near the same blood vessel cell, no new blood vessel cell will grow from it._
+   _Type 2 inhibitor: Inhibitors interact with blood vessels through spatial proximity and compete with VEGF. If inhibitor binds to a blood vessel cell, no new blood vessel cells will grow from it._
 
 &nbsp; 
 ### 4) Model Parameters and Initialization
@@ -353,13 +353,13 @@ _global parameters:_
 
 _The model will be initialized as the follows:_
 
- *_An existing blood vessel will be created by generating a number of occasions of Blood Vessel Cell class at a fixed y position (a line of blood vessel cells)_
+ * _An existing blood vessel will be created by generating a number of occasions of Blood Vessel Cell class at a fixed y position (a line of blood vessel cells)_
  
- *_3 occasions of tumor class will be created at random locations below the blood vessel with pre-defined radii._
+ * _3 occasions of tumor class will be created at random locations below the blood vessel with pre-defined radii._
  
- *_VEGF will be released at a pre-defined rate by calling the method Tumor.releasing()_
+ * _VEGF will be released at a pre-defined rate by calling the method Tumor.releasing()_
  
- *_A pre-defined number of Inhibitors will be scheduled to enter the system at a later time_
+ * _A pre-defined number of Inhibitors will be scheduled to enter the system at a later time_
 
 _Steps during each "tick":_
  1. _If a VEGF dies, remove it from the system by deleting it from VEGF list_

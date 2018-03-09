@@ -351,7 +351,7 @@ _global parameters:_
 * _type2_inhibitor_list_
 
 
-_The model will be initialized as the follows:_
+_The model will be initialized as follows:_
 
  * _An existing blood vessel will be created by generating a number of occasions of Blood Vessel Cell class at a fixed y position (a line of blood vessel cells)_
  
@@ -377,11 +377,11 @@ _Steps during each "tick":_
 
 _The results will be measured using the following parameters:_
 
-* _change in tumor cell size (Change_TuSize = Tumor_Size(final)-Tumor_Size(initial))_
+* _change in tumor cell size (**Change_TuSize** = Tumor_Size(final)-Tumor_Size(initial))_
 * _time (t)_
-* _inhibitor concentration (inh_c = number-of-inhibitors/simulation-area)_
+* _inhibitor concentration (**inh_c** = number-of-inhibitors/simulation-area)_
 
-_The effectiveness of the inhibitors will be measured using the formula **(Change_TuSize/t)/inh_c**, indicating the growth rate of the tumor cell at the given amount of inhibitors. The smaller the result, the more effective the inhibitor is._
+_The effectiveness of the inhibitors will be measured using the formula **(Change_TuSize/t)/inh_c**, indicating the growth rate of the tumor cell at a given amount of inhibitors. The smaller the result, the more effective the inhibitor is._
 
 &nbsp; 
 

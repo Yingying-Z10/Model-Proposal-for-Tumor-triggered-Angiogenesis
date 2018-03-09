@@ -61,59 +61,29 @@ Class BV(object):
     self.x=x
     self.y=y
     self.growth_rate=g_rate
-    self.bound=False
-    
-  def branch_grow(self, VEGF_list, Inhibitor_list, bc_V, inhibitor_type, bc_I): 
+    self.bound_VEGF=False
+    self.bound_VEGF_id=-1
+    self.bound_Inhibitor=False
+    self.bound_Inhibitor_id=-1
+  
+  # check if the blood vessel will grow
+  def check_branch_grow(self, VEGF_list): 
     # bc_V & bc_I: binding coefficient of VEGF & inhibitor respectively
-    growing=False
     near_VEGF_list=[]
-    near_inhibitor_list=[]
-    total_near_VEGF_distance=0
-    total_near_inhibitor_distance=0
     
     # append all the VEGF that are close to the blood vessel cell into the list "near_VEGF_list"
     for VEGF in VEGF_list:
       #calculate the distance between a VEGF and the blood vessel cell
       distance=math.sqrt((VEGF.x-self.x)**2+(VEGF.y-self.y)**2)
       if distance<2: 
-        total_near_VEGF_distance+=distance
         near_VEGF_list.append(VEGF)
-        
-    # for type 2 inhibitor, append all the inhibitors that are close to the blood vessel cell into the list "near_inhibitor_list"
-    if inhibitor_type==2:
-      for inhibitor in Inhibitor_list:
-        #calculate the distance between an inhibitor and the blood vessel cell
-        distance=math.sqrt((inhibitor.x-self.x)**2+(inhibitor.y-self.y)**2)
-        if distance<2:
-          total_near_inhibitor_distance+=distance
-          near_inhibitor_list.append(inhibitor)
     
-    # if the inhibitor is type 1, it does not interact with blood vessel cells. The blood vessel growth depends only on VEGF binding. If a VEGF is bound by an inhibitor, it will not be able to bind to the blood vessel cell
-    if inhibitor_type==1 and bound==False:
-      for VEGF in near_VEGF_list:
-        if random.random()<bc_V and VEGF.attached=False:
-          VEGF.attached=True
-          growing=True
-          bound==True
-          break
-          
-      if growing==Ture:
-        # the function "find_center_point" finds the geometric center of the group near the blood vessel and returns its location
-        center_VEGF=find_center_point(near_VEGF_list)
-        # grow the blood vessel
-        BV_grow(center_VEGF)
-     
-    # if the inhibitor is type 2, it competes with VEGF in binding with blood vessel cells. If the average distance between the group of inhibitors is smaller than that of VEGF, the blood vessel will not grow. Otherwise, the blood vessel will grow 
-    if inhibitor_type==2 and bound==False:
-      if total_near_VEGF_distance/len(near_VEGF_list) < total_near_inhibitor_distance/len(near_inhibitor_list):
-        growing=False
-      else:
-        growing=True
-        bound=True
-        
-      if growing==True:
-        center_VEGF=find_center_point(near_VEGF_list)
-        BV_grow()
+    # if the blood vessel cell is bound to VEGF, it will grow along the VEGF gradient
+    if self.bound_VEGF==True:    
+      # the function "find_center_point" finds the geometric center of the group near the blood vessel and returns its location
+      center_VEGF=find_center_point(near_VEGF_list)
+      # grow the blood vessel
+      BV_grow(center_VEGF)
     
   def BV_grow(self, center):
     #calculate moving direction
@@ -179,7 +149,9 @@ I2_speed=2.0 # migration speed of type 2 inhibitor
 V_dying_rate=0.5 # dying rate of VEGF
 I1_dying_rate=0.4 # dying rate of type 1 inhibitor
 I2_dying_rate=0.4 # dying rate of type 2 inhibitor
-I1_binding_coefficient=0.9
+V_binding_coefficient=0.6 # binding coefficient of VEGF
+I1_binding_coefficient=0.9 # binding coefficient of type 1 inhibitor
+I2_binding_coefficient=0.8 # binding coefficient of type 2 inhibitor
 
 # Construct the tumor cells:
 Class Tumor(object):
@@ -217,12 +189,15 @@ Class Tumor(object):
       
 
 Class VEGF(object):
-  def __init__(self, x, y, speed):
+  def __init__(self, x, y, speed, id):
     self.x=x
     self.y=y
     self.speed=speed
+    self.id=id
     self.bound=false
     self.inactive=false
+    self.bound_I1=false
+    self.bound_I1_id=-1
   
   # VEGF migration
   def moving(self):
@@ -234,19 +209,37 @@ Class VEGF(object):
         self.x+=dx
         self.y+=dy
         break
+        
+  # VEGF binding to blood vessel cells
+  def VEGF_binding(self):
+    for BV in BV_list:
+      distance=math.sqrt((self.x-BV.x)**2+(self.y-BV.y)**2)
+      # if the VEGF is close enough to an unoccupied blood vessel cell, it will be likely to bind to it  
+      if distance < 2 and random.random() < V_binding_coefficient and BV.bound_VEGF==False and BV.bound_Inhibitor==False:
+        self.bound=True
+        BV.bound_VEGF=True
+        BV.bound_VEGF_id=self.id
   
   # VEGF dying: a while after it is bound to either type 1 inhibitor or the blood vessel, it will be removed from the system
   def dying(self):
     if self.bound==True:
       value=V_dying_rate*(t-Tbound) # t is the current time and Tbound is the time when VEGF is attached
-      if value<=0 or moved-out-of-boundary:
+      if value<=0:
         self.inactive=true
+        for BV in BV_list:
+          if BV.bound_VEGF_id==id:
+            BV.bound_VEGF=False
+            BV.bound_VEGF_id=-1
+            break
+    if move-out-of-boundary:
+      self.inactive=true
         
 Class Type1_inhibitor(object):
-  def __init__(self, x, y, speed):
+  def __init__(self, x, y, speed, id):
     self.x=x
     self.y=y
     self.speed=speed
+    self.id=id
     self.bound=false
     self.inactive=false
     
@@ -258,25 +251,34 @@ Class Type1_inhibitor(object):
     self.y+=dy 
   
   # type1 inhibitor binding to VEGF
-  def binding(self, I_bc):
+  def binding(self, I1_binding_coefficient):
     for VEGF in VEGF_list:
       distance=math.sqrt((self.x-VEGF.x)**2+(self.y-VEGF.y)**2)
-      if distance<2 and random.random()<I_bc: # I_bc is the binding coefficient of type1 inhibitor
+      if distance<2 and random.random() < I1_binding_coefficient: 
         self.bound=True
-        VEGF.bound=True
+        VEGF.bound_I1=True
+        VEGF.bound_I1_id=self.id
   
   # type1 inhibitor dying: a while after it is bound to VEGF, it will be removed from the system
   def dying(self):
     if self.bound==True:
-      value=I1_dying_rate*(t-Tbound) # t is the current time and Tbound is the time when inhibitor is attached
-      if value<=0 or moved-out-of-boundary:
+      value=I1_dying_rate*(t-Tbound) # t is the current time and Tbound is the time when type 1 inhibitor is bound to VEGF
+      if value<=0:
         self.inactive=true
+        for VEGF in VEGF_list:
+          if VEGF.bound_I1_id==id:
+            VEGF.bound_I1=False
+            VEGF.bound_I1_id=-1
+            break
+    if move-out-of-boundary:
+      self.inactive=true
         
 Class Type2_inhibitor(object):
-  def __init__(self, x, y, speed):
+  def __init__(self, x, y, speed, id):
     self.x=x
     self.y=y
     self.speed=speed
+    self.id=id
     self.inactive=false
     
   # type2 inhibitor migration
@@ -286,15 +288,29 @@ Class Type2_inhibitor(object):
     self.x+=dx
     self.y+=dy 
   
-  # type2 inhibitor dying: a while after it enters the system, it will be removed from the system
+  # type2 inhibitor binding to blood vessel cells
+  def binding(self, I2_binding_coefficient):
+    for BV in BV_list:
+      distance=math.sqrt((self.x-BV.x)**2+(self.y-BV.y)**2)
+      if distance<2 and random.random() < I2_binding_coefficient:
+        self.bound=True
+        BV.bound_Inhibitor=True
+        BV.bound_Inhibitor_id=self.id
+  
+  # type2 inhibitor dying: a while after it is bound to blood vessel cell, it will be removed from the system
   def dying(self):
-    if moved-out-of-boundary:
+    if self.bound==True:
+      value=I2_dying_rate*(t-Tbound) # t is the current time and Tbound is the time when type 2 inhibitor is bound to blood vessel cell
+      if value<=0:
+        self.inactive=true
+        for BV in BV_list:
+          if BV.bound_Inhibitor_id==id:
+            BV.bound_Inhibitor=False
+            BV.bound_Inhibitor_id=-1
+            break
+    if move-out-of-boundary:
       self.inactive=true
 
-
-# This may be a set of "turtle-own" variables and a command in the "setup" procedure, a list, an array, or Class constructor
-# Feel free to include any agent methods/procedures you have so far. Filling in with pseudocode is ok! 
-```
 
 &nbsp; 
 

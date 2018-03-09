@@ -344,7 +344,7 @@ _global parameters:_
 
 * _grid size_
 * _time_
-* _blood_vessel_cell_list
+* _blood_vessel_cell_list_
 * _VEGF_list_
 * _tumor_cell_list_
 * _type1_inhibitor_list_

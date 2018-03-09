@@ -375,16 +375,16 @@ _Steps during each "tick":_
 
 ### 5) Assessment and Outcome Measures
 
-_The results will be measured using the following parameters:
+_The results will be measured using the following parameters:_
 
 * _change in tumor cell size (Change_TuSize = Tumor_Size(final)-Tumor_Size(initial))_
 * _time (t)_
 * _inhibitor concentration (inh_c = number-of-inhibitors/simulation-area)_
 
-_The effectiveness of the inhibitors will be measured using the formula **(Change_TuSize/t)/inh_c**, indicating the growth rate of the tumor cell at the given amount of inhibitors. The smaller the result, the more effective the inhibitor is.
+_The effectiveness of the inhibitors will be measured using the formula **(Change_TuSize/t)/inh_c**, indicating the growth rate of the tumor cell at the given amount of inhibitors. The smaller the result, the more effective the inhibitor is._
 
 &nbsp; 
 
 ### 6) Parameter Sweep
 
-_I'm interested in changing the types of the inhibitor (type 1 VS type 2) to see how their effects on tumor growth differ. I'm also interested in changing the number of the inhibitors introduced to the system. I would like to test a range from 100 to 10000 number of inhibitors to see what is the minimum concentration required to suppress tumor growth. Besides, I would like to change the binding coefficient of the inhibitors, testing a range from 0.4 to 1, to see how it is related to the effects of the inhibitors.
+_I'm interested in changing the types of the inhibitor (type 1 VS type 2) to see how their effects on tumor growth differ. I'm also interested in changing the number of the inhibitors introduced to the system. I would like to test a range from 100 to 10000 number of inhibitors to see what is the minimum concentration required to suppress tumor growth. Besides, I would like to change the binding coefficient of the inhibitors, testing a range from 0.4 to 1, to see how it is related to the effects of the inhibitors._

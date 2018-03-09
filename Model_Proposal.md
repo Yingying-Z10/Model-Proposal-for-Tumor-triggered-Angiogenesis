@@ -14,17 +14,17 @@ _The goal of my model is to simulate the angiogenesis process triggered by tumor
 &nbsp;  
 ### Justification
 ****
-_The process of tumor-triggered angiogenesis is a complex system involving different agents such as proteins released by tumor cells and endothelial cells. The growth of blood vessels is a result from interactions between the proteins released by the tumor cells and the receptors on the endothelial cells. Using ABM, I can predict the formation of new blood vessels; and by adding inhibitors to the systems, I can test whether certain inhibitor can prevent the tumor cells from growing and compare the efficiencies of different inhibitors._
+_The process of tumor-triggered angiogenesis is a complex system involving different agents such as tumor cells and VEGF proteins released by tumor cells. The growth of blood vessels is a result from interactions between the proteins released by the tumor cells and the receptors on the blood vessel cells. Using ABM, I can predict the formation of new blood vessels and the rate of tumor growth; and by adding inhibitors to the systems, I can test whether certain inhibitor can prevent the tumor cells from growing and compare the efficiencies of different inhibitors._
 
 &nbsp; 
 ### Main Micro-level Processes and Macro-level Dynamics of Interest
 ****
 
-_The key process I am interested in exploring is how the inhibitors interact with either the proteins released by the tumor cells or the endothelial cells to prevent the blood vessels from reaching the tumor cells, and therefore preventing tumor growth. I will test 2 types of inhibitors and compare their effects._
+_The key process I am interested in exploring is how the inhibitors interact with either VEGF released by tumor cells or the blood vessels to prevent the blood vessels from reaching the tumor cells, and therefore preventing tumor growth. I will test 2 types of inhibitors and compare their effects._
 
  * _Type1: inhibitor that binds to VEGF, the most important factor released by tumor cells. This type of inhibitors acts as antibody which binds to VEGF and triggers immune response to remove VEGF. Angiogenesis will not be initiated without VEGF._
 
- * _Type2: inhibitor that directly interacts with endothelial cells and prevents their migration._ 
+ * _Type2: inhibitor that directly interacts with blood vessel cells and prevents their migration._ 
 
 &nbsp; 
 
@@ -33,7 +33,7 @@ _The key process I am interested in exploring is how the inhibitors interact wit
 ****
 &nbsp; 
 ### 1) Environment
-_Description of the environment in your model. Things to specify *if they apply*:_
+
 _The environment will be an area near a blood vessel within a human body. Initially, it will consist of an existing blood vessel at a fixed location. And as the simulation continues, the growth of new branches will be triggered by tumors:_
 * _Boundary condition: infinite_
 * _Dimensionality: 2D_
@@ -179,6 +179,7 @@ I2_speed=2.0 # migration speed of type 2 inhibitor
 V_dying_rate=0.5 # dying rate of VEGF
 I1_dying_rate=0.4 # dying rate of type 1 inhibitor
 I2_dying_rate=0.4 # dying rate of type 2 inhibitor
+I1_binding_coefficient=0.9
 
 # Construct the tumor cells:
 Class Tumor(object):
@@ -187,7 +188,16 @@ Class Tumor(object):
     self.y=y
     self.radius=radius
     self.release_rate=r_constant*(radius**2)
-     
+  
+  # tumor releasing VEGF
+  def releasing(self):
+    number=self.release_rate
+    for i in range(number):
+      theta=random.uniform(0,2*PI)
+      x=self.radius*sin(theta)
+      y=self.radius*cos(theta)
+      new_VEGF=VEGF(x,y,V_speed)
+  
   # tumor growth rate
   def tumor_growth_rate(self, grow=False, distance, g_constant)
     if grow==Ture:
@@ -195,10 +205,16 @@ Class Tumor(object):
       g_rate=g_constant/distance
       return g_rate
   
-  # tumor growing
+  # tumor growing: if tumor is near a blood vessel, it will grow
   def grow(self, tumor_growth_rate, grow=False):
+    for BV in BV_list:
+      distance=math.sqrt((self.x-BV.x)**2+(self.y-BV.y)**2)
+      if distance < 2:
+        grow=True
+        break
     if grow==True:
       self.radius=tumor_growth_rate*self.radius
+      
 
 Class VEGF(object):
   def __init__(self, x, y, speed):
@@ -210,10 +226,14 @@ Class VEGF(object):
   
   # VEGF migration
   def moving(self):
-    dx=self.speed*random.uniform(-1,1)
-    dy=self.speed*random.uniform(-1,1)
-    self.x+=dx
-    self.y+=dy
+    for i in range(10):
+      dx=self.speed*random.uniform(-1,1)
+      dy=self.speed*random.uniform(-1,1)
+      # VEGF is moving towards areas that are less concentrated with VEGF
+      if(VEGF_concentration@(self.x+dx) < VEGF_concentration@self.x):
+        self.x+=dx
+        self.y+=dy
+        break
   
   # VEGF dying: a while after it is bound to either type 1 inhibitor or the blood vessel, it will be removed from the system
   def dying(self):
@@ -238,10 +258,10 @@ Class Type1_inhibitor(object):
     self.y+=dy 
   
   # type1 inhibitor binding to VEGF
-  def binding(self):
+  def binding(self, I_bc):
     for VEGF in VEGF_list:
       distance=math.sqrt((self.x-VEGF.x)**2+(self.y-VEGF.y)**2)
-      if distance<2:
+      if distance<2 and random.random()<I_bc: # I_bc is the binding coefficient of type1 inhibitor
         self.bound=True
         VEGF.bound=True
   
@@ -315,11 +335,26 @@ _global parameters:_
 * _type2_inhibitor_list_
 
 
-_Describe how your model will be initialized_
-_
+_The model will be initialized as the follows:_
 
-_Provide a high level, step-by-step description of your schedule during each "tick" of the model_
+ *_An existing blood vessel will be created by generating a number of occasions of Blood Vessel Cell class at a fixed y position (a line of blood vessel cells)_
+ 
+ *_3 occasions of tumor class will be created at random locations below the blood vessel with pre-defined radii._
+ 
+ *_VEGF will be released at a pre-defined rate by calling the method Tumor.releasing()_
+ 
+ *_A pre-defined number of Inhibitors will be scheduled to enter the system at a later time_
 
+_Steps during each "tick":_
+ 1. _If a VEGF dies, remove it from the system by deleting it from VEGF list_
+ 2. _If an inhibitor dies, remove it from the system by deleting it from Inhibitor list_
+ 3. _Tumors release VEGF, and new VEGF will be appended to the VEGF list_
+ 4. _VEGFs move_
+ 5. _Inhibitors move_
+ 6. _Inhibitors bind to VEGF if conditions are satisfied (type 1 inhibitor only, for type 2 skip this step)_
+ 7. _Check if blood vessel will grow, if so, generate new blood vessel cells and append them to the blood vessel cell list_
+ 8. _Check if tumor will grow, if so, update the tumor to have the new size and VEGF releasing rate._
+ 
 &nbsp; 
 
 ### 5) Assessment and Outcome Measures
@@ -336,5 +371,4 @@ _The effectiveness of the inhibitors will be measured using the formula **(Chang
 
 ### 6) Parameter Sweep
 
-_What parameters are you most interested in sweeping through? What value ranges do you expect to look at for your analysis?_
-_I'm interested in sweeping through the types of the inhibitors and the concentrations of the inhibitors._ 
+_I'm interested in changing the types of the inhibitor (type 1 VS type 2) to see how their effects on tumor growth differ. I'm also interested in changing the number of the inhibitors introduced to the system. I would like to test a range from 100 to 10000 number of inhibitors to see what is the minimum concentration required to suppress tumor growth. Besides, I would like to change the binding coefficient of the inhibitors, testing a range from 0.4 to 1, to see how it is related to the effects of the inhibitors.

@@ -310,7 +310,7 @@ Class Type2_inhibitor(object):
             break
     if move-out-of-boundary:
       self.inactive=true
-
+```
 
 &nbsp; 
 

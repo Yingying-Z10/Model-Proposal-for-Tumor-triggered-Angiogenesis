@@ -43,10 +43,11 @@ _The environment will be an area near a blood vessel within a human body. Initia
 * _Environment-owned methods/procedures:_
 
    _growth of new blood vessels from the existing ones_
-  
-   
-   
 
+&nbsp;
+ 
+
+  
 
 ```python
 import math
@@ -350,6 +351,10 @@ _global parameters:_
 * _type1_inhibitor_list_
 * _type2_inhibitor_list_
 
+&nbsp;
+__*LS COMMENTS:*__
+*I might also encourage you to think about the set of constants you specify at the beginning of your agent specification above (i.e. migration speed, spread constant, dying rate, binding coefficient) as parameters you are setting as well. Even if these values are being empirically driven, their translation into a computational model will definitely require "tuning" or "calibration" in order to get at what they mean in real world contexts. Ultimately, you'll probably need to sweep through them in a pretty sophisticated way and/or conduct a series of validation and robustness checks to verify how sensitive your results are to their setting and confirm that they behave in ways that resemble the real world system at a variety of different levels.*
+
 
 _The model will be initialized as follows:_
 
@@ -383,8 +388,20 @@ _The results will be measured using the following parameters:_
 
 _The effectiveness of the inhibitors will be measured using the formula **(Change_TuSize/t)/inh_c**, indicating the growth rate of the tumor cell at a given amount of inhibitors. The smaller the result, the more effective the inhibitor is._
 
+&nbsp;
+
+__*LS Comments*__
+*I anticipate that something very important to figure out with this model in the long term will be to confirm that scale in terms of relative size of both the objects and the space are on point to make sure you get at the dynamics of interest in a faithful way. That will require some deep empirical calibration that may be beyond the scope of the current class, but is hopefully something doable in the future.*
+
 &nbsp; 
 
 ### 6) Parameter Sweep
 
 _I'm interested in changing the types of the inhibitor (type 1 VS type 2) to see how their effects on tumor growth differ. I'm also interested in changing the number of the inhibitors introduced to the system. I would like to test a range from 100 to 10000 number of inhibitors to see what is the minimum concentration required to suppress tumor growth. Besides, I would like to change the binding coefficient of the inhibitors, testing a range from 0.4 to 1, to see how it is related to the effects of the inhibitors._
+
+&nbsp;
+
+__*LS COMMENTS*__
+*See previous comments with regard to specified constants and parameter sweeps.*
+
+*Looks like you've already done a lot of work for this model and from what I can tell from here, should be on your way to getting something up and running soon! Currently, you've got something that is pretty complicated, so if you run into any problems, I would strongly advise breaking this down into simpler components first and going from there (e.g. focus on just getting a blood vessel that grows first, then begin adding elements back in). Visualizing this will also be more complicated than what many other students tend to take on, but I anticipate that it might be important to pursue something along those lines since it will likely be the most straightforward way to confirm that everything is behaving as expected. Let me know if you run into any particular questions or want feedback on something specific - I'm here to help! Overall though, great work and look forward to seeing what you get from this.*
